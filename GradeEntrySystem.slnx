@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="gradeentrysystem.client/gradeentrysystem.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="GradeEntrySystem.Server/GradeEntrySystem.Server.csproj" />
+</Solution>
