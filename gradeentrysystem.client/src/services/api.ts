@@ -54,6 +54,7 @@ export const gradesApi = {
   getById: (id: number) => api.get<Grade>(`/grades/${id}`),
   getByStudent: (studentId: number) => api.get<Grade[]>(`/grades/student/${studentId}`),
   getByCourse: (courseId: number) => api.get<Grade[]>(`/grades/course/${courseId}`),
+  getOptions: () => api.get<string[]>('/grades/options'),
   create: (grade: Omit<Grade, 'id' | 'dateEntered' | 'enteredByTeacherId'>) => 
     api.post<Grade>('/grades', grade),
   update: (id: number, grade: Grade) => api.put(`/grades/${id}`, grade),

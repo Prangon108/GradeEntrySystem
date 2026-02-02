@@ -25,6 +25,13 @@ public class GradesController : ControllerBase
         _context = context;
     }
 
+    /// <summary>Get all available grade scale options.</summary>
+    [HttpGet("options")]
+    public ActionResult<IEnumerable<string>> GetGradeOptions()
+    {
+        return Ok(GradeScale.AllowedValues);
+    }
+
     /// <summary>List all grades with basic student/course info.</summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<GradeDto>>> GetGrades()

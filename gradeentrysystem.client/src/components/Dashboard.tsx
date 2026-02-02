@@ -139,21 +139,38 @@ function GradesTab({ grades, onRefresh, students, courses, showToast }: { grades
   const [formData, setFormData] = useState({ studentId: '', courseId: '', gradeValue: '' });
   const [editingId, setEditingId] = useState<number | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<{ id: number; type: 'grade' } | null>(null);
+  const [gradeOptions, setGradeOptions] = useState<string[]>([]);
 
-  const gradeOptions = [
-    'A (93-100)',
-    'A- (90-92)',
-    'B+ (87-89)',
-    'B (83-86)',
-    'B- (80-82)',
-    'C+ (77-79)',
-    'C (73-76)',
-    'C- (70-72)',
-    'D+ (67-69)',
-    'D (63-66)',
-    'D- (60-62)',
-    'F (0-59)',
-  ] as const;
+  // All the grades that you see on the UI at the dropdown, they are all listed in the UI itself. Yeah. So what I wanted to do is create an endpoint which fetches from the server side and not have that listed on the UI. Okay. Yeah. So instead of populating the dropdown using the UI elements, we would like to populate the UI elements using the endpoints. Okay. Yeah. All right.
+  // Previous code - hardcoded grade options in UI (commented out):
+  // const gradeOptions = [
+  //   'A (93-100)',
+  //   'A- (90-92)',
+  //   'B+ (87-89)',
+  //   'B (83-86)',
+  //   'B- (80-82)',
+  //   'C+ (77-79)',
+  //   'C (73-76)',
+  //   'C- (70-72)',
+  //   'D+ (67-69)',
+  //   'D (63-66)',
+  //   'D- (60-62)',
+  //   'F (0-59)',
+  // ] as const;
+
+  // Fetch grade options from server-side endpoint
+  useEffect(() => {
+    const loadGradeOptions = async () => {
+      try {
+        const response = await gradesApi.getOptions();
+        setGradeOptions(response.data);
+      } catch (error) {
+        console.error('Error loading grade options:', error);
+        showToast({ message: 'Error loading grade options. Please try again.', type: 'error' });
+      }
+    };
+    loadGradeOptions();
+  }, [showToast]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
